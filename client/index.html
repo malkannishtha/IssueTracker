@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.5/angular-material.min.css" />
+		<link rel="stylesheet" href="index.css" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Issue Tracker</title>
+	</head>
+	<body ng-app="issue-tracker">
+		<div class="p-5">
+			<md-button class="md-raised md-primary md-hue-2 w-full font-bold">Our Theme Is This</md-button>
+		</div>
+		<!-- loading button -->
+		<div class="p-5">
+			<md-button class="md-raised md-primary md-hue-2 w-full" ng-disabled="true">
+				<div class="flex items-center justify-center">
+					<div class="w-full text-start">
+						<md-progress-circular md-mode="indeterminate" md-diameter="20px"></md-progress-circular>
+					</div>
+					<div class="w-full">Loading</div>
+					<div class="w-full"></div>
+				</div>
+			</md-button>
+		</div>
+		<div class="p-5">
+			<md-button class="md-raised md-accent w-full">Info</md-button>
+		</div>
+		<div class="p-5">
+			<md-button class="md-raised md-warn w-full">Warning</md-button>
+		</div>
+		<div ng-controller="ABC">
+			<custom-button name="Click Me" loading="loading" class="md-accent md-hue-2 w-full"></custom-button>
+		</div>
+		<script type="module" src="/main.js"></script>
+	</body>
+</html>

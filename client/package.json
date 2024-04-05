@@ -1,0 +1,25 @@
+{
+	"name": "issue-tracker",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"angular": "^1.8.3",
+		"angular-animate": "^1.8.3",
+		"angular-aria": "^1.8.3",
+		"angular-material": "^1.2.5",
+		"angular-messages": "^1.8.3",
+		"angular-route": "^1.8.3"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.4.19",
+		"postcss": "^8.4.38",
+		"tailwindcss": "^3.4.3",
+		"vite": "^5.2.0"
+	}
+}
