@@ -5,3 +5,10 @@
 .md-button {
 	margin: 0 !important;
 }
+
+:root {
+	--darkest: #222831;
+	--dark: #31363f;
+	--primary: #76abae;
+	--light: #eeeeee;
+}

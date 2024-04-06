@@ -1,0 +1,61 @@
+<div class="w-screen h-screen bg-darkest flex justify-center items-center">
+	<div class="bg-light rounded-lg border md:w-1/3 w-full m-8 transition-all p-5">
+		<div class="text-darkest text-center font-extrabold text-3xl mb-5">SIGNUP</div>
+
+		<div class="text-center mb-5">
+			<form name="signupForm">
+				<input
+					type="text"
+					class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest"
+					placeholder="Username"
+					ng-model="username"
+					ng-class="{'border-red-600 border-2': signupForm.username.$invalid && signupForm.username.$dirty}"
+					name="username"
+					required
+				/>
+				<input
+					type="text"
+					class="mt-2 font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest"
+					placeholder="Fullname"
+					ng-model="fullname"
+					ng-class="{'border-red-600 border-2': signupForm.fullname.$invalid && signupForm.fullname.$dirty}"
+					name="fullname"
+					required
+				/>
+				<input
+					type="email"
+					class="mt-2 font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest"
+					placeholder="Email Address"
+					ng-model="email"
+					ng-class="{'border-red-600 border-2': signupForm.email.$invalid && signupForm.email.$dirty}"
+					name="email"
+					required
+				/>
+				<input
+					type="password"
+					class="mt-2 font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest"
+					placeholder="Password"
+					ng-model="password"
+					ng-class="{'border-red-600 border-2': signupForm.password.$invalid && signupForm.password.$dirty}"
+					name="password"
+					required
+				/>
+			</form>
+		</div>
+
+		<custom-button
+			on-click="onSignup()"
+			class="bg-primary w-full text-dark rounded-lg"
+			name="Signup"
+			loading="loading"
+		></custom-button>
+		<div class="text-end">
+			<span
+				ng-click="toLogin()"
+				class="text-dark hover:text-primary cursor-pointer relative after:content-[' '] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-0 hover:after:w-full after:bg-primary after:transition-all font-bold transition-all"
+			>
+				Login
+			</span>
+		</div>
+	</div>
+</div>

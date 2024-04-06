@@ -1,10 +1,10 @@
-<div class="p-5">
-	<md-button class="md-raised" ng-class="class" ng-disabled="loading">
-		<div class="flex items-center justify-center">
+<div ng-class="parentClass">
+	<md-button class="" ng-class="class" ng-click="onClick()">
+		<div class="flex items-center justify-center gap-x-2">
 			<div class="w-full text-start">
 				<md-progress-circular ng-if="loading" md-mode="indeterminate" md-diameter="20px"></md-progress-circular>
 			</div>
-			<div class="w-full">{{name}}</div>
+			<div class="w-full font-bold">{{name}}</div>
 			<div class="w-full"></div>
 		</div>
 	</md-button>
