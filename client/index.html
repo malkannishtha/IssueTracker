@@ -7,15 +7,59 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 		<link rel="manifest" href="/site.webmanifest" />
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.5/angular-material.min.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+			integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.5/angular-material.min.css"
+		/>
 		<link rel="stylesheet" href="index.css" />
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Issue Tracker</title>
 	</head>
 	<body ng-app="issue-tracker">
-		<ng-view></ng-view>
+		<div ng-controller="mainController">
+			<div ng-if="showHeaderFooter">
+				<!-- header -->
+				<div class="container bg-light">
+					<div
+						class="w-screen h-[10vh] border-b shadow-lg flex items-center bg-white text-darkest select-none"
+					>
+						<div class="text-3xl font-bold md:mx-5 cursor-pointer">IssueTracker</div>
+						<div class="flex gap-x-4 ml-10">
+							<div
+								class="text-lg cursor-pointer transition-all hover:text-primary relative after:content-[' '] after:absolute after:left-0 after:-bottom-1 after:h-1 hover:after:w-full after:bg-primary after:transition-all"
+								ng-class="{'after:w-full text-primary': activeLink('/home'), 'text-darkest after:w-0': !activeLink('/home') }"
+								ng-click="redirectTo('/home')"
+							>
+								Your work
+							</div>
+							<div
+								class="text-lg cursor-pointer transition-all hover:text-primary relative after:content-[' '] after:absolute after:left-0 after:-bottom-1 after:h-1 hover:after:w-full after:bg-primary after:transition-all"
+								ng-class="{'after:w-full text-primary': activeLink('/projects'), 'text-darkest after:w-0': !activeLink('/projects') }"
+								ng-click="redirectTo('/projects')"
+							>
+								Projects
+							</div>
+						</div>
+						<div class="text-end">
+							<span class="cursor-pointer mr-5 text-xl">
+								<i class="fa-solid fa-user mr-2"></i>{{username}}
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<ng-view></ng-view>
+			</div>
+			<div ng-if="!showHeaderFooter"><ng-view></ng-view></div>
+		</div>
 		<script type="module" src="/main.js"></script>
 	</body>
 </html>
