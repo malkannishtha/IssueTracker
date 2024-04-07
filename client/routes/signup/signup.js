@@ -1,6 +1,6 @@
 import angular from "angular";
 
-function signupController($scope, $interval, $timeout, $route, $location, $http) {
+function signupController($scope, $interval, $timeout, $location, auth, api) {
 	$scope.loading = false;
 	$scope.username = "";
 	$scope.email = "";
