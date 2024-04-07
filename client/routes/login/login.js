@@ -18,18 +18,19 @@ function loginController($scope, $interval, $timeout, $location, auth, api) {
 		}
 
 		$scope.loading = true;
-		api.fetchPost("", undefined, { username: $scope.username, password: $scope.password }, undefined).then(
-			(response) => {
-				if (response.success) {
-					localStorage.setItem(response.data.token);
-					auth.login(response.data.token, response.data.username);
-					$location.path("/home");
-				} else {
-					$scope.loading = false;
-					$scope.error = response.message;
-				}
-			}
-		);
+		api.fetchPost("login", undefined, { username: $scope.username, password: $scope.password })
+			.then((response) => {
+				$scope.errorMsg = "";
+				localStorage.setItem("token", response.data.token);
+				auth.login(response.data.token, response.data.username);
+				$location.path("/home");
+			})
+			.catch((response) => {
+				$scope.errorMsg = response.data.message;
+			})
+			.finally(() => {
+				$scope.loading = false;
+			});
 	};
 
 	$scope.toSignup = function () {

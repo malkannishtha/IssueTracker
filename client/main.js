@@ -15,7 +15,7 @@ const appModule = angular
 	.module("issue-tracker", ["ngAnimate", "ngAria", "ngMessages", "ngMaterial", "ngRoute"])
 	.config(config);
 
-//config
+//CONFIG----------------------------------------------------------------------------
 config.$inject = ["$mdThemingProvider", "$routeProvider"];
 function config($mdThemingProvider, $routeProvider) {
 	$mdThemingProvider.theme("default").primaryPalette("purple").accentPalette("light-blue").warnPalette("red");
@@ -44,7 +44,7 @@ appModule.controller("loginController", loginController);
 appModule.controller("signupController", signupController);
 loginController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 signupController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
-mainController.$inject = ["$scope", "$location", "auth"];
+mainController.$inject = ["$scope", "$location", "auth", "$rootScope"];
 
 //EVENT-LISTENERS----------------------------------------------------------------------------
 appModule.run(authGuard);
@@ -55,8 +55,6 @@ function authGuard($rootScope, $location, auth) {
 		if (next.$$route && !["/", "/signup"].includes(next.$$route.originalPath)) {
 			if (!auth.isAuthenticated()) {
 				$location.path("/");
-			} else if (!auth.getUsername()) {
-				auth.verify();
 			}
 		}
 	});

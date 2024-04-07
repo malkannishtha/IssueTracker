@@ -15,24 +15,29 @@ export default function authServive($location, api) {
 		token = tokenRes;
 	}
 
-	function verify() {
+	async function verify() {
 		token = localStorage.getItem("token");
 		if (!token) {
 			logout();
 			return;
 		}
-		api.fetchGet("verify", localStorage.getItem("token"), undefined)
-			.then((data) => {
-				username = data.username;
-			})
-			.catch(() => {
-				logout();
-			});
+		const promise = await new Promise((resolve, reject) => {
+			api.fetchGet("verify", localStorage.getItem("token"), undefined)
+				.then((response) => {
+					resolve(response.data.username);
+				})
+				.catch(() => {
+					localStorage.clear();
+					window.open("/", "_self");
+				});
+		});
+		username = promise;
+		return username;
 	}
 
 	function logout() {
 		localStorage.clear();
-		$location.path("/");
+		window.open("/", "_self");
 	}
 
 	function getToken() {
@@ -50,5 +55,6 @@ export default function authServive($location, api) {
 		isAuthenticated: isAuthenticated,
 		getToken: getToken,
 		getUsername: getUsername,
+		username,
 	};
 }

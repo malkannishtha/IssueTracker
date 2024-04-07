@@ -25,40 +25,38 @@
 	</head>
 	<body ng-app="issue-tracker">
 		<div ng-controller="mainController">
-			<div ng-if="showHeaderFooter">
-				<!-- header -->
-				<div class="container bg-light">
-					<div
-						class="w-screen h-[10vh] border-b shadow-lg flex items-center bg-white text-darkest select-none"
-					>
-						<div class="text-3xl font-bold md:mx-5 cursor-pointer">IssueTracker</div>
-						<div class="flex gap-x-4 ml-10">
-							<div
-								class="text-lg cursor-pointer transition-all hover:text-primary relative after:content-[' '] after:absolute after:left-0 after:-bottom-1 after:h-1 hover:after:w-full after:bg-primary after:transition-all"
-								ng-class="{'after:w-full text-primary': activeLink('/home'), 'text-darkest after:w-0': !activeLink('/home') }"
-								ng-click="redirectTo('/home')"
-							>
-								Your work
-							</div>
-							<div
-								class="text-lg cursor-pointer transition-all hover:text-primary relative after:content-[' '] after:absolute after:left-0 after:-bottom-1 after:h-1 hover:after:w-full after:bg-primary after:transition-all"
-								ng-class="{'after:w-full text-primary': activeLink('/projects'), 'text-darkest after:w-0': !activeLink('/projects') }"
-								ng-click="redirectTo('/projects')"
-							>
-								Projects
-							</div>
+			<div class="w-screen h-screen bg-light">
+				<div
+					ng-if="showHeaderFooter"
+					class="w-screen h-[10vh] border-b shadow-lg flex items-center bg-white text-darkest select-none"
+				>
+					<div class="text-3xl font-bold md:mx-5 cursor-pointer" onclick="window.open('/#!/home','_self')">
+						IssueTracker
+					</div>
+					<div class="flex gap-x-4 ml-10">
+						<div
+							class="text-lg cursor-pointer transition-all hover:text-primary relative after:content-[' '] after:absolute after:left-0 after:-bottom-1 after:h-1 hover:after:w-full after:bg-primary after:transition-all"
+							ng-class="{'after:w-full text-primary': activeLink('/home'), 'text-darkest after:w-0': !activeLink('/home') }"
+							ng-click="redirectTo('/home')"
+						>
+							Your work
 						</div>
-						<div class="text-end">
-							<span class="cursor-pointer mr-5 text-xl">
-								<i class="fa-solid fa-user mr-2"></i>{{username}}
-							</span>
+						<div
+							class="text-lg cursor-pointer transition-all hover:text-primary relative after:content-[' '] after:absolute after:left-0 after:-bottom-1 after:h-1 hover:after:w-full after:bg-primary after:transition-all"
+							ng-class="{'after:w-full text-primary': activeLink('/projects'), 'text-darkest after:w-0': !activeLink('/projects') }"
+							ng-click="redirectTo('/projects')"
+						>
+							Projects
 						</div>
 					</div>
+					<div class="text-end">
+						<span class="cursor-pointer mr-5 text-xl">
+							<i class="fa-solid fa-user mr-2"></i>{{username}}
+						</span>
+					</div>
 				</div>
-
 				<ng-view></ng-view>
 			</div>
-			<div ng-if="!showHeaderFooter"><ng-view></ng-view></div>
 		</div>
 		<script type="module" src="/main.js"></script>
 	</body>

@@ -9,12 +9,12 @@ export default function apiService($http, $location) {
 			},
 		};
 		if (token) {
-			req.headers["Authorisation"] = "Bearer " + token;
+			req.headers["Authorization"] = "Bearer " + token;
 		}
 		let response = await $http(req);
 		if (response.status == 401) {
 			localStorage.clear();
-			$location.path("/");
+			window.open("/");
 			return;
 		}
 		return response.data;
@@ -30,12 +30,12 @@ export default function apiService($http, $location) {
 			data: body,
 		};
 		if (token) {
-			req.headers["Authorisation"] = "Bearer " + token;
+			req.headers["Authorization"] = "Bearer " + token;
 		}
 		let response = await $http(req);
 		if (response.status == 401) {
 			localStorage.clear();
-			$location.path("/");
+			window.open("/");
 			return;
 		}
 		return response.data;
