@@ -47,8 +47,9 @@ async function register(req, res, next) {
 }
 
 async function addProject(req, res, next) {
-	const { title, description, leader_id, members } = req.body;
-	if (!title || !description || !leader_id || members.length === 0) {
+	const userData = res.locals.userData;
+	const { title, description, members } = req.body;
+	if (!title || !description || members.length === 0) {
 		throw new CustomError("Invalid Request", 400);
 	}
 	const membersArr = members.map((ele) => new mongoose.Types.ObjectId(ele));
@@ -56,7 +57,7 @@ async function addProject(req, res, next) {
 	const project = new projectModel({
 		title: title,
 		description: description,
-		leader_id: new mongoose.Types.ObjectId(leader_id),
+		leader_id: new mongoose.Types.ObjectId(userData._id),
 		members: membersArr,
 		is_active: 1,
 	});
@@ -115,7 +116,11 @@ async function editProject(req, res, next) {
 	ok200(res);
 }
 async function getUsers(req, res, next) {
-	const users = await usersModel.find({ is_active: 1 }, { username: 1, email: 1, fullname: 1 }).lean();
+	const { query } = req.query;
+	const users = await usersModel
+		.find({ is_active: 1, $or: [{ username: new RegExp(`${query}`) }, { fullname: new RegExp(`${query}`) }] })
+		.limit(20)
+		.lean();
 	ok200(res, { users });
 }
 module.exports = { login, verify, register, addProject, getProjects, getProject, deleteProject, editProject, getUsers };

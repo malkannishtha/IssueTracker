@@ -24,11 +24,11 @@
 		<title>Issue Tracker</title>
 	</head>
 	<body ng-app="issue-tracker">
-		<div ng-controller="mainController">
-			<div class="w-screen h-screen bg-light">
+		<div ng-controller="mainController" class="w-full h-full">
+			<div class="w-full h-full bg-light">
 				<div
 					ng-if="showHeaderFooter"
-					class="w-screen h-[10vh] border-b shadow-lg flex items-center bg-white text-darkest select-none"
+					class="w-screen h-[10svh] border-b shadow-lg flex items-center bg-white text-darkest select-none"
 				>
 					<div class="text-3xl font-bold md:mx-5 cursor-pointer" onclick="window.open('/#!/home','_self')">
 						IssueTracker
@@ -55,7 +55,9 @@
 						</span>
 					</div>
 				</div>
-				<ng-view></ng-view>
+				<div class="w-full h-[90svh] overflow-y-auto">
+					<ng-view></ng-view>
+				</div>
 			</div>
 		</div>
 		<script type="module" src="/main.js"></script>

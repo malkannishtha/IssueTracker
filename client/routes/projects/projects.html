@@ -1,1 +1,57 @@
-<div class="text-3xl">Projects</div>
+<div class="p-5 h-full w-full">
+	<div class="text-3xl font-bold bg-white rounded-lg p-3 flex justify-between">
+		<div>Your Projects</div>
+		<custom-button
+			on-click="onLogin()"
+			class="bg-primary text-textdark rounded-lg text-lg"
+			name="Add Project"
+		></custom-button>
+	</div>
+	<div class="mt-4 bg-white rounded-lg p-3 overflow-x-auto">
+		<table style="min-width: max-content" class="table-auto w-full border-collapse border border-primary">
+			<thead>
+				<tr class="bg-darkest text-light">
+					<th
+						class="border border-primary p-3 text-lg select-none cursor-pointer relative"
+						ng-repeat="item in fields"
+						ng-click="sortBy(item.field)"
+					>
+						{{item.header}}
+						<span class="text-base absolute right-5" ng-if="orderBy == item.field"
+							><i class="fa-solid fa-arrow-down-a-z"></i
+						></span>
+						<span class="text-base absolute right-5" ng-if="orderBy == '-'+item.field"
+							><i class="fa-solid fa-arrow-up-a-z"></i
+						></span>
+					</th>
+				</tr>
+			</thead>
+			<tbody ng-if="!loading && projects.length > 0">
+				<tr ng-repeat="project in projects | orderBy:orderBy">
+					<td class="border border-primary p-3">{{project.index}}</td>
+					<td class="border border-primary p-3">{{project.title}}</td>
+					<td class="border border-primary p-3">{{project.description}}</td>
+					<td class="border border-primary p-3">{{project.leader_id}}</td>
+				</tr>
+			</tbody>
+			<tbody ng-if="loading">
+				<tr class="h-32">
+					<td colspan="4" class="border border-primary">
+						<div class="w-full h-full flex items-center justify-center">
+							<md-progress-circular md-mode="indeterminate" md-diameter="30px"></md-progress-circular>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody ng-if="!loading && projects.length == 0">
+				<tr class="h-32">
+					<td colspan="4" class="border border-primary">
+						<div class="w-full h-full flex items-center justify-center text-xl text-red-500 font-bold">
+							NO DATA FOUND
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

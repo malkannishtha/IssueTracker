@@ -22,8 +22,8 @@ function loginController($scope, $interval, $timeout, $location, auth, api) {
 			.then((response) => {
 				$scope.errorMsg = "";
 				localStorage.setItem("token", response.data.token);
-				auth.login(response.data.token, response.data.username);
-				$location.path("/home");
+				auth.login(response.data.token, $scope.username);
+				window.open("/", "_self");
 			})
 			.catch((response) => {
 				$scope.errorMsg = response.data.message;

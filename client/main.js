@@ -10,6 +10,7 @@ import signupController from "./routes/signup/signup";
 import authServive from "./services/authService";
 import mainController from "./controllers/mainController";
 import apiService from "./services/apiService";
+import projectsController from "./routes/projects/projects";
 
 const appModule = angular
 	.module("issue-tracker", ["ngAnimate", "ngAria", "ngMessages", "ngMaterial", "ngRoute"])
@@ -23,7 +24,7 @@ function config($mdThemingProvider, $routeProvider) {
 		.when("/", { templateUrl: "/routes/login/login.html", controller: "loginController" })
 		.when("/signup", { templateUrl: "/routes/signup/signup.html", controller: "signupController" })
 		.when("/home", { templateUrl: "/routes/home/home.html" })
-		.when("/projects", { templateUrl: "/routes/projects/projects.html" })
+		.when("/projects", { templateUrl: "/routes/projects/projects.html", controller: "projectsController" })
 		.when("/error", { templateUrl: "/routes/error/error.html" })
 		.otherwise("/error");
 }
@@ -42,9 +43,11 @@ appModule.directive("customButton", customButton);
 appModule.controller("mainController", mainController);
 appModule.controller("loginController", loginController);
 appModule.controller("signupController", signupController);
+appModule.controller("projectsController", projectsController);
 loginController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 signupController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 mainController.$inject = ["$scope", "$location", "auth", "$rootScope"];
+projectsController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 
 //EVENT-LISTENERS----------------------------------------------------------------------------
 appModule.run(authGuard);
