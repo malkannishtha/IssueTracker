@@ -2,13 +2,24 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const userRoutes = require("./routes/routes");
+
 const { errorHandler, interceptor, asyncRouteHandler } = require("./utils/routerUtils");
 const usersModel = require("./models/users");
 //const projectsModel=require('./models/projects');
 const dbConnect = require("./utils/dbConnect");
-const { login, register } = require("./controllers/controller");
+const {
+	login,
+	register,
+	addProject,
+	verify,
+	getProjects,
+	deleteProject,
+	getUsers,
+	editProject,
+} = require("./controllers/controller");
 const md5 = require("md5");
+const { authMiddleware } = require("./middleware/auth-middleware");
+
 //const mongoose = require('mongoose');
 
 const port = process.env.PORT || 3001;
@@ -23,7 +34,14 @@ app.use(morgan("dev"));
 app.use(express.static("public"));
 app.post("/signup", asyncRouteHandler(register));
 app.post("/login", asyncRouteHandler(login));
-app.use("/user", userRoutes);
+app.use(authMiddleware());
+app.get("/verify", asyncRouteHandler(verify));
+app.post("/user/projects", asyncRouteHandler(addProject));
+app.get("/user/projects", asyncRouteHandler(getProjects));
+//app.get("/user/projects/:id")
+app.delete("/user/projects/:id", asyncRouteHandler(deleteProject));
+app.patch("/user/projects/:id", asyncRouteHandler(editProject));
+app.get("/users", asyncRouteHandler(getUsers));
 app.use(errorHandler);
 dbConnect()
 	.then(() => {
