@@ -16,6 +16,10 @@ const {
 	deleteProject,
 	getUsers,
 	editProject,
+	getProject,
+	addIssue,
+	deleteIssue,
+	getIssues,
 } = require("./controllers/controller");
 const md5 = require("md5");
 const { authMiddleware } = require("./middleware/auth-middleware");
@@ -38,9 +42,12 @@ app.use(authMiddleware());
 app.get("/verify", asyncRouteHandler(verify));
 app.post("/user/projects", asyncRouteHandler(addProject));
 app.get("/user/projects", asyncRouteHandler(getProjects));
-//app.get("/user/projects/:id")
+app.get("/user/projects/:id", asyncRouteHandler(getProject));
 app.delete("/user/projects/:id", asyncRouteHandler(deleteProject));
 app.patch("/user/projects/:id", asyncRouteHandler(editProject));
+app.post("/user/issues", asyncRouteHandler(addIssue));
+app.delete("/user/issues/:id", asyncRouteHandler(deleteIssue));
+app.get("/user/issues", asyncRouteHandler(getIssues));
 app.get("/users", asyncRouteHandler(getUsers));
 app.use(errorHandler);
 dbConnect()
