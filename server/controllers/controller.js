@@ -65,7 +65,7 @@ async function addProject(req, res, next) {
 	ok200(res);
 }
 async function getProjects(req, res, next) {
-	const projects = await projectModel.find({ is_active: 1 }).lean();
+	const projects = await projectModel.find({ is_active: 1 }).populate("leader_id");
 	ok200(res, { projects });
 }
 async function getProject(req, res, next) {

@@ -1,14 +1,11 @@
 <div class="p-5 h-full w-full">
 	<div class="text-3xl font-bold bg-white rounded-lg p-3 flex justify-between">
 		<div>Your Projects</div>
-		<custom-button
-			on-click="onLogin()"
-			class="bg-primary text-textdark rounded-lg text-lg"
-			name="Add Project"
-		></custom-button>
+		<custom-button on-click="showModal()" class="bg-primary text-textdark rounded-lg text-lg" name="Add Project">
+		</custom-button>
 	</div>
 	<div class="mt-4 bg-white rounded-lg p-3 overflow-x-auto">
-		<table style="min-width: max-content" class="table-auto w-full border-collapse border border-primary">
+		<table style="min-width: fit-content" class="table-auto w-full border-collapse border border-primary">
 			<thead>
 				<tr class="bg-darkest text-light">
 					<th
@@ -17,21 +14,37 @@
 						ng-click="sortBy(item.field)"
 					>
 						{{item.header}}
-						<span class="text-base absolute right-5" ng-if="orderBy == item.field"
+						<span class="text-base" ng-if="orderBy == item.field"
 							><i class="fa-solid fa-arrow-down-a-z"></i
 						></span>
-						<span class="text-base absolute right-5" ng-if="orderBy == '-'+item.field"
+						<span class="text-base" ng-if="orderBy == '-'+item.field"
 							><i class="fa-solid fa-arrow-up-a-z"></i
 						></span>
 					</th>
+					<th class="border border-primary p-3 text-lg select-none cursor-pointer relative">Actions</th>
 				</tr>
 			</thead>
 			<tbody ng-if="!loading && projects.length > 0">
-				<tr ng-repeat="project in projects | orderBy:orderBy">
+				<tr class="hover:bg-light" ng-repeat="project in projects | orderBy:orderBy">
 					<td class="border border-primary p-3">{{project.index}}</td>
 					<td class="border border-primary p-3">{{project.title}}</td>
-					<td class="border border-primary p-3">{{project.description}}</td>
-					<td class="border border-primary p-3">{{project.leader_id}}</td>
+					<td class="border border-primary p-3">
+						{{project.description | slice:200}} {{ showDots(project.description) }}
+					</td>
+					<td class="border border-primary p-3">{{project.leader}}</td>
+					<td class="border border-primary p-3">
+						<div class="w-full flex justify-evenly">
+							<i
+								ng-if="showEditDelete(project.leader)"
+								class="mx-2 cursor-pointer text-lg text-blue-600 fa-solid fa-edit"
+							></i>
+							<i
+								ng-if="showEditDelete(project.leader)"
+								class="mx-2 cursor-pointer text-lg text-red-600 fa-solid fa-trash"
+							></i>
+							<i class="mx-2 cursor-pointer text-lg text-primary fa-solid fa-circle-arrow-right"></i>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 			<tbody ng-if="loading">

@@ -11,6 +11,7 @@ import authServive from "./services/authService";
 import mainController from "./controllers/mainController";
 import apiService from "./services/apiService";
 import projectsController from "./routes/projects/projects";
+import slice from "./filters/slice";
 
 const appModule = angular
 	.module("issue-tracker", ["ngAnimate", "ngAria", "ngMessages", "ngMaterial", "ngRoute"])
@@ -47,7 +48,10 @@ appModule.controller("projectsController", projectsController);
 loginController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 signupController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 mainController.$inject = ["$scope", "$location", "auth", "$rootScope"];
-projectsController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
+projectsController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api", "$mdDialog"];
+
+//FILTERS----------------------------------------------------------------------------
+appModule.filter("slice", slice);
 
 //EVENT-LISTENERS----------------------------------------------------------------------------
 appModule.run(authGuard);
