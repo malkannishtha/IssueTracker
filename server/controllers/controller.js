@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { ok200 } = require("../utils/responseUtils");
 const issuesModel = require("../models/issues");
+const { title } = require("process");
 
 async function login(req, res, next) {
 	const { username, password } = req.body;
@@ -181,6 +182,71 @@ async function getIssues(req, res, next) {
 
 	ok200(res, { issues });
 }
+async function getIssue(req, res, next) {
+	const issueId = req.params.id;
+	if (!mongoose.isValidObjectId(issueId)) {
+		throw new CustomError("Invalid issueId", 400);
+	}
+	const user_id = new mongoose.Types.ObjectId(res.locals.userData._id);
+
+	const issue = await issuesModel
+		.findOne({ is_active: 1, _id: issueId })
+		.populate("user_id")
+		.populate({ path: "project_id", populate: { path: "members" } })
+		.populate({ path: "project_id", populate: { path: "leader_id" } });
+
+	if (!issue) {
+		throw new CustomError("Issue not found", 400);
+	} else {
+		if (issue.project_id.leader_id._id.equals(user_id)) {
+			ok200(res, { issue });
+		} else if (
+			issue.project_id.members.some((ele) => {
+				return ele._id.equals(user_id);
+			})
+		) {
+			ok200(res, { issue });
+		} else {
+			throw new CustomError("User does not have access to this issue", 400);
+		}
+	}
+}
+async function editIssue(req, res, next) {
+	const issueId = req.params.id;
+	const user_id = new mongoose.Types.ObjectId(res.locals.userData._id);
+
+	if (!mongoose.isValidObjectId(issueId)) {
+		throw new CustomError("Invalid issueId", 400);
+	}
+	const { title, description, due_date, status } = req.body;
+	const issue = await issuesModel.findOne({ _id: issueId, is_active: 1 });
+	if (!issue) {
+		throw new CustomError("Issue not found", 400);
+	} else {
+		if (user_id.equals(issue.created_by)) {
+			if (title) {
+				issue.title = title;
+			}
+			if (description) {
+				issue.description = description;
+			}
+			if (due_date) {
+				issue.due_date = due_date;
+			}
+			if (status) {
+				issue.status = status;
+			}
+		} else if (user_id.equals(issue.user_id)) {
+			if (status) {
+				issue.status = status;
+			}
+		} else {
+			throw new CustomError("You don't have permission to edit this issue", 400);
+		}
+		await issue.save();
+		ok200(res);
+	}
+}
 module.exports = {
 	login,
 	verify,
@@ -194,4 +260,6 @@ module.exports = {
 	addIssue,
 	deleteIssue,
 	getIssues,
+	getIssue,
+	editIssue,
 };

@@ -20,6 +20,8 @@ const {
 	addIssue,
 	deleteIssue,
 	getIssues,
+	getIssue,
+	editIssue,
 } = require("./controllers/controller");
 const md5 = require("md5");
 const { authMiddleware } = require("./middleware/auth-middleware");
@@ -47,6 +49,8 @@ app.delete("/user/projects/:id", asyncRouteHandler(deleteProject));
 app.patch("/user/projects/:id", asyncRouteHandler(editProject));
 app.post("/user/issues", asyncRouteHandler(addIssue));
 app.delete("/user/issues/:id", asyncRouteHandler(deleteIssue));
+app.get("/user/issues/:id", asyncRouteHandler(getIssue));
+app.patch("/user/issues/:id", asyncRouteHandler(editIssue));
 app.get("/user/issues", asyncRouteHandler(getIssues));
 app.get("/users", asyncRouteHandler(getUsers));
 app.use(errorHandler);
