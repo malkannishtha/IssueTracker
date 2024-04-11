@@ -23,6 +23,7 @@ async function login(req, res, next) {
 	});
 	res.json({ success: true, data: { token } });
 }
+
 async function verify(req, res, next) {
 	res.json({ success: true, data: { ...res.locals.userData, iat: null, exp: null } });
 }
@@ -66,6 +67,7 @@ async function addProject(req, res, next) {
 	await project.save();
 	ok200(res);
 }
+
 async function getProjects(req, res, next) {
 	const user_id = new mongoose.Types.ObjectId(res.locals.userData._id);
 	const projects = await projectModel
@@ -74,6 +76,7 @@ async function getProjects(req, res, next) {
 		.populate("members");
 	ok200(res, { projects });
 }
+
 async function getProject(req, res, next) {
 	const projectId = req.params.id;
 	const user_id = new mongoose.Types.ObjectId(res.locals.userData._id);
@@ -81,7 +84,7 @@ async function getProject(req, res, next) {
 		throw new CustomError("Invalid ProjectId", 400);
 	}
 	const project = await projectModel
-		.find({
+		.findOne({
 			_id: projectId,
 			is_active: 1,
 			$or: [{ leader_id: user_id }, { members: { $in: [user_id] } }],
@@ -90,6 +93,7 @@ async function getProject(req, res, next) {
 		.populate("members");
 	ok200(res, { project });
 }
+
 async function deleteProject(req, res, next) {
 	const projectId = req.params.id;
 	const user_id = new mongoose.Types.ObjectId(res.locals.userData._id);
@@ -101,6 +105,7 @@ async function deleteProject(req, res, next) {
 	project.save();
 	ok200(res);
 }
+
 async function editProject(req, res, next) {
 	const projectId = req.params.id;
 	const userData = res.locals.userData;
@@ -128,26 +133,31 @@ async function editProject(req, res, next) {
 	await project.save();
 	ok200(res);
 }
+
 async function getUsers(req, res, next) {
 	const { query } = req.query;
-	console.log(query);
 	const users = await usersModel
-		.find({ is_active: 1, $or: [{ username: new RegExp(`${query}`) }, { fullname: new RegExp(`${query}`) }] })
+		.find({
+			is_active: 1,
+			$or: [{ username: new RegExp(`${query}`) }, { fullname: new RegExp(`${query}`) }],
+			_id: { $ne: res.locals.userData._id },
+		})
 		.limit(20)
 		.lean();
 	ok200(res, { users });
 }
+
 async function addIssue(req, res, next) {
 	const userData = res.locals.userData;
-	const { title, description, due_date, status, project_id, user_id } = req.body;
-	if (!title || !description || !due_date || !status || !project_id || !user_id) {
+	const { title, description, due_date, project_id, user_id } = req.body;
+	if (!title || !description || !due_date || !project_id || !user_id) {
 		throw new CustomError("Invalid Request", 400);
 	}
 	const issue = new issuesModel({
 		title: title,
 		description: description,
 		due_date: due_date,
-		status: status,
+		status: "TO-DO",
 		project_id: new mongoose.Types.ObjectId(project_id),
 		user_id: new mongoose.Types.ObjectId(user_id),
 		created_by: new mongoose.Types.ObjectId(userData._id),
@@ -157,6 +167,7 @@ async function addIssue(req, res, next) {
 	await issue.save();
 	ok200(res);
 }
+
 async function deleteIssue(req, res, next) {
 	const issueId = req.params.id;
 	if (!mongoose.isValidObjectId(issueId)) {
@@ -167,19 +178,10 @@ async function deleteIssue(req, res, next) {
 	issue.save();
 	ok200(res);
 }
-async function getIssues(req, res, next) {
-	const user_id = new mongoose.Types.ObjectId(res.locals.userData._id);
-	const project = await projectModel.find(
-		{ $or: [{ leader_id: user_id }, { members: { $in: [user_id] } }] },
-		{ is_active: 1 }
-	);
-	if (!project || project.length === 0) {
-		throw new CustomError("No projects found for the user", 400);
-	}
-	const issues = await issuesModel
-		.find({ is_active: 1, project_id: { $in: project.map((ele) => ele._id) } })
-		.populate({ path: "project_id", populate: { path: "members" } });
 
+async function getIssues(req, res, next) {
+	const user_id = res.locals.userData._id;
+	const issues = await issuesModel.find({ is_active: 1, user_id }).populate({ path: "project_id" });
 	ok200(res, { issues });
 }
 async function getIssue(req, res, next) {
@@ -247,6 +249,7 @@ async function editIssue(req, res, next) {
 		ok200(res);
 	}
 }
+
 module.exports = {
 	login,
 	verify,

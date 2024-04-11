@@ -1,4 +1,4 @@
-export default function projectsController($scope, $interval, $timeout, $location, auth, api, $mdDialog) {
+export default function projectsController($scope, $location, auth, api, $mdDialog) {
 	$scope.loading = true;
 	$scope.fields = [
 		{ header: "Sr No.", field: "index" },
@@ -54,6 +54,10 @@ export default function projectsController($scope, $interval, $timeout, $locatio
 		return false;
 	};
 
+	$scope.gotoProject = function (param) {
+		$location.path("/project/" + param);
+	};
+
 	$scope.getProjects = function () {
 		$scope.loading = true;
 		api.fetchGet("user/projects", localStorage.getItem("token"), undefined)
@@ -105,6 +109,8 @@ export default function projectsController($scope, $interval, $timeout, $locatio
 		};
 
 		$scope.addProject = function () {
+			if ($scope.addLoading) return;
+
 			const body = {
 				title: $scope.title,
 				description: $scope.description,
@@ -112,7 +118,6 @@ export default function projectsController($scope, $interval, $timeout, $locatio
 			};
 			$scope.addLoading = true;
 
-			console.log($scope);
 			api.fetchPost("user/projects", localStorage.getItem("token"), body)
 				.then((response) => {
 					$scope.$apply(() => {

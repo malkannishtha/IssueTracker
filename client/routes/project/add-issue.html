@@ -1,0 +1,56 @@
+<md-dialog aria-label="Add Project">
+	<md-dialog-content>
+		<div class="bg-white" style="width: 600px">
+			<div class="w-full bg-darkest text-light font-bold text-3xl p-5 relative">
+				Add Issue
+				<span class="absolute right-5 font-light cursor-pointer" ng-click="cancel()">
+					<i class="fa-regular fa-circle-xmark"></i>
+				</span>
+			</div>
+			<div class="p-5 w-full">
+				<input
+					ng-model="title"
+					type="text"
+					name="title"
+					placeholder="Title"
+					class="mt-2 font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				/>
+
+				<textarea
+					ng-model="description"
+					name="description"
+					placeholder="Description"
+					class="mt-2 font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				></textarea>
+
+				<input
+					ng-model="due_date"
+					type="date"
+					name="due_date"
+					placeholder="Due Date"
+					class="mt-2 font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				/>
+
+				<select
+					ng-model="user_id"
+					name="user_id"
+					class="mt-2 font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				>
+					<option value="">Select User</option>
+					<option ng-repeat="item in project.members" ng-value="item._id">{{item.username}}</option>
+				</select>
+
+				<div class="text-center text-red-600 mt-2 text-lg" ng-if="errorMsg">{{errorMsg}}</div>
+
+				<custom-button
+					on-click="save()"
+					class="bg-primary text-textdark rounded-lg text-lg w-full"
+					parent-class="mt-4"
+					name="Add Issue"
+					loading="issueLoading"
+				>
+				</custom-button>
+			</div>
+		</div>
+	</md-dialog-content>
+</md-dialog>

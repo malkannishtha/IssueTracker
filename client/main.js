@@ -12,6 +12,7 @@ import mainController from "./controllers/mainController";
 import apiService from "./services/apiService";
 import projectsController from "./routes/projects/projects";
 import slice from "./filters/slice";
+import projectController from "./routes/project/project";
 
 const appModule = angular
 	.module("issue-tracker", ["ngAnimate", "ngAria", "ngMessages", "ngMaterial", "ngRoute"])
@@ -26,6 +27,7 @@ function config($mdThemingProvider, $routeProvider) {
 		.when("/signup", { templateUrl: "/routes/signup/signup.html", controller: "signupController" })
 		.when("/home", { templateUrl: "/routes/home/home.html" })
 		.when("/projects", { templateUrl: "/routes/projects/projects.html", controller: "projectsController" })
+		.when("/project/:projectId", { templateUrl: "/routes/project/project.html", controller: "projectController" })
 		.when("/error", { templateUrl: "/routes/error/error.html" })
 		.otherwise("/error");
 }
@@ -45,10 +47,12 @@ appModule.controller("mainController", mainController);
 appModule.controller("loginController", loginController);
 appModule.controller("signupController", signupController);
 appModule.controller("projectsController", projectsController);
+appModule.controller("projectController", projectController);
 loginController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 signupController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 mainController.$inject = ["$scope", "$location", "auth", "$rootScope"];
-projectsController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api", "$mdDialog"];
+projectsController.$inject = ["$scope", "$location", "auth", "api", "$mdDialog"];
+projectController.$inject = ["$scope", "$location", "auth", "api", "$mdDialog", "$routeParams"];
 
 //FILTERS----------------------------------------------------------------------------
 appModule.filter("slice", slice);
