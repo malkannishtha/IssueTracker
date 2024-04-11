@@ -60,10 +60,10 @@
 						</thead>
 						<tbody ng-if="!loading && members.length > 0">
 							<tr ng-repeat="member in members">
-								<td class="border border-primary p-1">{{member.index}}</td>
+								<td class="border border-primary p-1">{{$index + 1}}</td>
 								<td class="border border-primary p-1">{{member.username}}</td>
 								<td class="border border-primary p-1 text-center">
-									<span class="text-red-600 cursor-pointer" ng-click="removeMember(member.index)">
+									<span class="text-red-600 cursor-pointer" ng-click="removeMember(member._id)">
 										<i class="fa-solid fa-trash"></i>
 									</span>
 								</td>

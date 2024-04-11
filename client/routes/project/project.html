@@ -34,6 +34,8 @@
 					Details
 				</div>
 			</div>
+
+			<!-- ----------------------details------------------------------------- -->
 			<div class="w-full h-full ms-2 overflow-auto" ng-if="activeView == 'details'">
 				<div class="px-52 text-darkest">
 					<div class="my-5">
@@ -54,21 +56,60 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="member in project.members">
+								<tr ng-repeat="member in members">
 									<td class="border border-primary p-3">{{$index + 1}}</td>
 									<td class="border border-primary p-3">{{member.username}}</td>
 									<td class="border border-primary p-3">{{member.fullname}}</td>
-									<td class="border border-primary p-3">{{0}}</td>
-									<td class="border border-primary p-3">{{0}}</td>
-									<td class="border border-primary p-3">{{0}}</td>
-									<td class="border border-primary p-3">{{0}}</td>
+									<td class="border border-primary p-3">{{getIssueCount(member._id, 'TO-DO')}}</td>
+									<td class="border border-primary p-3">
+										{{getIssueCount(member._id, 'IN-PROGRESS')}}
+									</td>
+									<td class="border border-primary p-3">{{getIssueCount(member._id, 'DONE')}}</td>
+									<td class="border border-primary p-3">{{getIssueCount(member._id, 'EXPIRED')}}</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-			<div class="w-full h-full ms-2" ng-if="activeView == 'issues'">Dynamic content2</div>
+
+			<!-- ----------------------issues------------------------------------- -->
+			<div class="w-full h-full ms-2 overflow-auto" ng-if="activeView == 'issues'">
+				<div class="flex gap-x-6 px-5">
+					<div class="flex-1 justify-center flex" ng-repeat="status in statuses">
+						<table class="table-auto w-full border-collapse border border-primary min-w-fit">
+							<thead>
+								<tr class="bg-darkest text-light">
+									<th class="border border-primary p-1 select-none">{{status}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									class="hover:bg-light cursor-pointer"
+									ng-repeat="item in getIssues(status)"
+									ng-click="viewIssueModal(item)"
+								>
+									<td class="border border-primary p-3">
+										<div class="flex flex-col">
+											<div class="border-b border-b-darkest text-justify pb-2">
+												{{item.title | slice:100 }}
+											</div>
+											<div class="mt-2">{{formatDate(item.createdAt)}}</div>
+											<div>{{formatDate(item.due_date)}}</div>
+											<div
+												ng-class="{'font-bold': username == getUser(item.user_id).username}"
+												class="mt-2 border-t border-darkest"
+											>
+												{{getUser(item.user_id).fullname}}
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

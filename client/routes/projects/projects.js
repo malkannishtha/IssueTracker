@@ -23,11 +23,35 @@ export default function projectsController($scope, $location, auth, api, $mdDial
 	$scope.showModal = function (ev) {
 		$mdDialog
 			.show({
-				controller: dialogController,
+				controller: addProjectController,
 				templateUrl: "routes/projects/add-project.html",
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose: false,
+			})
+			.then(
+				function (answer) {
+					if (answer) {
+						$scope.getProjects();
+					}
+				},
+				function () {
+					$scope.status = "You cancelled the dialog.";
+				}
+			);
+	};
+
+	$scope.editProject = function (projectId, ev) {
+		$mdDialog
+			.show({
+				controller: editProjectController,
+				templateUrl: "routes/projects/add-project.html",
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose: false,
+				locals: {
+					project: $scope.projects.find((ele) => ele._id == projectId),
+				},
 			})
 			.then(
 				function (answer) {
@@ -60,7 +84,7 @@ export default function projectsController($scope, $location, auth, api, $mdDial
 
 	$scope.getProjects = function () {
 		$scope.loading = true;
-		api.fetchGet("user/projects", localStorage.getItem("token"), undefined)
+		api.fetchGet("projects", localStorage.getItem("token"), undefined)
 			.then((response) => {
 				$scope.$apply(() => {
 					$scope.projects = response.data.projects.map((ele, index) => ({
@@ -77,9 +101,28 @@ export default function projectsController($scope, $location, auth, api, $mdDial
 				});
 			});
 	};
+	$scope.deleteProject = function (projectId) {
+		let con = confirm("Are you sure you want to delete this project?");
+		if (!con) return;
+		$scope.loading = true;
+		api.fetchGet("projects/" + projectId, localStorage.getItem("token"), "DELETE")
+			.then((response) => {
+				if (response.success) {
+					$scope.getProjects();
+				}
+			})
+			.catch((response) => {
+				alert(response.data.message);
+			})
+			.finally(() => {
+				$scope.$apply(() => {
+					$scope.loading = false;
+				});
+			});
+	};
 	$scope.getProjects();
 
-	function dialogController($scope, $mdDialog) {
+	function addProjectController($scope, $mdDialog) {
 		$scope.members = [];
 		$scope.users = [];
 		$scope.member = "";
@@ -103,9 +146,7 @@ export default function projectsController($scope, $location, auth, api, $mdDial
 			$scope.member = "";
 		};
 		$scope.removeMember = function (user) {
-			$scope.members = $scope.members
-				.filter((ele, ind) => ele.index != user)
-				.map((ele, ind) => ({ ...ele, index: ind + 1 }));
+			$scope.members = $scope.members.filter((ele, ind) => ele._id != userId);
 		};
 
 		$scope.addProject = function () {
@@ -118,7 +159,71 @@ export default function projectsController($scope, $location, auth, api, $mdDial
 			};
 			$scope.addLoading = true;
 
-			api.fetchPost("user/projects", localStorage.getItem("token"), body)
+			api.fetchPost("projects", localStorage.getItem("token"), body)
+				.then((response) => {
+					$scope.$apply(() => {
+						$scope.errorMsg = "";
+						$mdDialog.hide(true);
+					});
+				})
+				.catch((response) => {
+					$scope.$apply(() => {
+						$scope.errorMsg = response.data.message;
+					});
+				})
+				.finally(() => {
+					$scope.$apply(() => {
+						$scope.addLoading = false;
+					});
+				});
+		};
+
+		$scope.fields = [
+			{ header: "Sr No.", field: "index" },
+			{ header: "Username", field: "username" },
+		];
+		$scope.cancel = function () {
+			$mdDialog.cancel();
+		};
+	}
+	function editProjectController($scope, $mdDialog, project) {
+		$scope.members = project.members;
+		$scope.users = [];
+		$scope.member = "";
+		$scope.description = project.description;
+		$scope.title = project.title;
+		$scope.errorMsg = "";
+		$scope.addLoading = false;
+		$scope.onMemberChange = function () {
+			if (!$scope.member) return;
+			api.fetchGet(`users?query=${$scope.member}`, localStorage.getItem("token"))
+				.then((response) => {
+					$scope.$apply(() => {
+						$scope.users = response.data.users;
+					});
+				})
+				.catch(() => {});
+		};
+		$scope.selectMember = function (user) {
+			if ($scope.members.find((ele) => ele.username == user.username)) return;
+			$scope.members.push({ ...user, index: $scope.members.length + 1 });
+			$scope.member = "";
+		};
+		$scope.removeMember = function (userId) {
+			$scope.members = $scope.members.filter((ele, ind) => ele._id != userId);
+		};
+
+		$scope.addProject = function () {
+			if ($scope.addLoading) return;
+
+			const body = {
+				title: $scope.title,
+				description: $scope.description,
+				members: $scope.members.map((ele) => ele._id),
+			};
+			$scope.addLoading = true;
+
+			api.fetchPost("projects/" + project._id, localStorage.getItem("token"), body, "PATCH")
 				.then((response) => {
 					$scope.$apply(() => {
 						$scope.errorMsg = "";

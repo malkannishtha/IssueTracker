@@ -35,10 +35,12 @@
 					<td class="border border-primary p-3">
 						<div class="w-full flex justify-evenly">
 							<i
+								ng-click="editProject(project._id)"
 								ng-if="showEditDelete(project.leader)"
 								class="mx-2 cursor-pointer text-lg text-blue-600 fa-solid fa-edit"
 							></i>
 							<i
+								ng-click="deleteProject(project._id)"
 								ng-if="showEditDelete(project.leader)"
 								class="mx-2 cursor-pointer text-lg text-red-600 fa-solid fa-trash"
 							></i>
@@ -52,7 +54,7 @@
 			</tbody>
 			<tbody ng-if="loading">
 				<tr class="h-32">
-					<td colspan="4" class="border border-primary">
+					<td colspan="5" class="border border-primary">
 						<div class="w-full h-full flex items-center justify-center">
 							<md-progress-circular md-mode="indeterminate" md-diameter="30px"></md-progress-circular>
 						</div>
@@ -61,7 +63,7 @@
 			</tbody>
 			<tbody ng-if="!loading && projects.length == 0">
 				<tr class="h-32">
-					<td colspan="4" class="border border-primary">
+					<td colspan="5" class="border border-primary">
 						<div class="w-full h-full flex items-center justify-center text-xl text-red-500 font-bold">
 							NO DATA FOUND
 						</div>

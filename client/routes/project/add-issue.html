@@ -37,7 +37,7 @@
 					class="mt-2 font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
 				>
 					<option value="">Select User</option>
-					<option ng-repeat="item in project.members" ng-value="item._id">{{item.username}}</option>
+					<option ng-repeat="item in members" ng-value="item._id">{{item.username}}</option>
 				</select>
 
 				<div class="text-center text-red-600 mt-2 text-lg" ng-if="errorMsg">{{errorMsg}}</div>

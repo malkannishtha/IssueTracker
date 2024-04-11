@@ -1,1 +1,89 @@
-<div class="text-3xl">Home</div>
+<div class="p-5 h-full w-full">
+	<div class="text-3xl font-bold bg-white rounded-lg p-3">Your Work</div>
+	<div class="mt-4 bg-white rounded-lg p-3 overflow-x-auto" ng-if="!loading">
+		<!-- <div class="my-2 flex gap-x-2">
+			<select
+				ng-model="status"
+				ng-change="filterIssues($event)"
+				name="status"
+				class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+			>
+				<option value="" disabled>Select Status</option>
+				<option value="All">All</option>
+				<option value="TO-DO">TO-DO</option>
+				<option value="IN-PROGRESS">IN-PROGRESS</option>
+				<option value="DONE">DONE</option>
+				<option value="EXPIRED">EXPIRED</option>
+			</select>
+			<select
+				ng-model="project"
+				ng-change="filterIssues()"
+				name="project"
+				class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+			>
+				<option value="" disabled selected>Select Project</option>
+				<option ng-repeat="project in projects">{{project}}</option>
+			</select>
+			{{status}}
+		</div> -->
+		<table style="min-width: fit-content" class="table-auto w-full border-collapse border border-primary">
+			<thead>
+				<tr class="bg-darkest text-light">
+					<th
+						class="border border-primary p-3 text-lg select-none cursor-pointer relative"
+						ng-repeat="item in fields"
+						ng-click="sortBy(item.field)"
+					>
+						{{item.header}}
+						<span class="text-base" ng-if="orderBy == item.field"
+							><i class="fa-solid fa-arrow-down-a-z"></i
+						></span>
+						<span class="text-base" ng-if="orderBy == '-'+item.field"
+							><i class="fa-solid fa-arrow-up-a-z"></i
+						></span>
+					</th>
+					<th class="border border-primary p-3 text-lg select-none cursor-pointer relative">Actions</th>
+				</tr>
+			</thead>
+			<tbody ng-if="!loading && filteredIssues.length > 0">
+				<tr class="hover:bg-light" ng-repeat="issue in filteredIssues | orderBy:orderBy">
+					<td class="border border-primary p-3">{{$index + 1}}</td>
+					<td class="border border-primary p-3">{{issue.title}}</td>
+					<td class="border border-primary p-3">
+						{{issue.description | slice:150}} {{ showDots(issue.description, 150) }}
+					</td>
+					<td class="border border-primary p-3">{{issue.status}}</td>
+					<td class="border border-primary p-3">{{issue.project}}</td>
+					<td class="border border-primary p-3 text-center">
+						<i
+							class="mx-2 cursor-pointer text-lg text-primary fa-solid fa-circle-arrow-right"
+							ng-click="gotoProject(issue.project_id)"
+						>
+						</i>
+					</td>
+				</tr>
+			</tbody>
+			<tbody ng-if="loading">
+				<tr class="h-32">
+					<td colspan="6" class="border border-primary">
+						<div class="w-full h-full flex items-center justify-center">
+							<md-progress-circular md-mode="indeterminate" md-diameter="30px"></md-progress-circular>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tbody ng-if="!loading && filteredIssues.length == 0">
+				<tr class="h-32">
+					<td colspan="6" class="border border-primary">
+						<div class="w-full h-full flex items-center justify-center text-xl text-red-500 font-bold">
+							NO DATA FOUND
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="mt-4 bg-white rounded-lg p-3 flex justify-center items-center w-full h-full" ng-if="loading">
+		<md-progress-circular md-mode="indeterminate" md-diameter="40px"></md-progress-circular>
+	</div>
+</div>

@@ -13,6 +13,7 @@ import apiService from "./services/apiService";
 import projectsController from "./routes/projects/projects";
 import slice from "./filters/slice";
 import projectController from "./routes/project/project";
+import homeController from "./routes/home/home";
 
 const appModule = angular
 	.module("issue-tracker", ["ngAnimate", "ngAria", "ngMessages", "ngMaterial", "ngRoute"])
@@ -25,7 +26,7 @@ function config($mdThemingProvider, $routeProvider) {
 	$routeProvider
 		.when("/", { templateUrl: "/routes/login/login.html", controller: "loginController" })
 		.when("/signup", { templateUrl: "/routes/signup/signup.html", controller: "signupController" })
-		.when("/home", { templateUrl: "/routes/home/home.html" })
+		.when("/home", { templateUrl: "/routes/home/home.html", controller: "homeController" })
 		.when("/projects", { templateUrl: "/routes/projects/projects.html", controller: "projectsController" })
 		.when("/project/:projectId", { templateUrl: "/routes/project/project.html", controller: "projectController" })
 		.when("/error", { templateUrl: "/routes/error/error.html" })
@@ -46,11 +47,13 @@ appModule.directive("customButton", customButton);
 appModule.controller("mainController", mainController);
 appModule.controller("loginController", loginController);
 appModule.controller("signupController", signupController);
+appModule.controller("homeController", homeController);
 appModule.controller("projectsController", projectsController);
 appModule.controller("projectController", projectController);
 loginController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 signupController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 mainController.$inject = ["$scope", "$location", "auth", "$rootScope"];
+homeController.$inject = ["$scope", "$location", "auth", "api", "$mdDialog"];
 projectsController.$inject = ["$scope", "$location", "auth", "api", "$mdDialog"];
 projectController.$inject = ["$scope", "$location", "auth", "api", "$mdDialog", "$routeParams"];
 

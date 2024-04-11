@@ -55,7 +55,10 @@
 						</span>
 					</div>
 				</div>
-				<div class="w-full h-[90svh] overflow-y-auto">
+				<div
+					class="w-full overflow-y-auto"
+					ng-class="{'h-[90svh]':showHeaderFooter,'h-full':!showHeaderFooter}"
+				>
 					<ng-view></ng-view>
 				</div>
 			</div>

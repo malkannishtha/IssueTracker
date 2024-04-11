@@ -1,0 +1,105 @@
+<md-dialog aria-label="Add Project">
+	<md-dialog-content>
+		<div class="bg-white" style="width: 600px">
+			<div class="w-full bg-darkest text-light font-bold text-3xl p-5 relative">
+				View Issue
+				<span class="absolute right-5 font-light cursor-pointer" ng-click="cancel()">
+					<i class="fa-regular fa-circle-xmark"></i>
+				</span>
+			</div>
+			<div class="p-5 w-full">
+				<label for="title" class="block text-gray-700">Title</label>
+				<input
+					ng-disabled="hasPermission(false)"
+					ng-model="title"
+					type="text"
+					id="title"
+					name="title"
+					placeholder="Title"
+					class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				/>
+
+				<label for="description" class="block text-gray-700 mt-2">Description</label>
+				<textarea
+					ng-disabled="hasPermission(false)"
+					ng-model="description"
+					id="description"
+					name="description"
+					placeholder="Description"
+					class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				></textarea>
+
+				<label for="due_date" class="block text-gray-700 mt-2">Due Date</label>
+				<input
+					ng-disabled="hasPermission(false)"
+					ng-model="due_date"
+					type="date"
+					id="due_date"
+					name="due_date"
+					placeholder="Due Date"
+					class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				/>
+
+				<label for="user_id" class="block text-gray-700 mt-2">Assigned To</label>
+				<select
+					ng-disabled="hasPermission(false)"
+					ng-model="user_id"
+					id="user_id"
+					name="user_id"
+					class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				>
+					<option value="">Select User</option>
+					<option ng-repeat="item in members" ng-value="item._id">{{item.username}}</option>
+				</select>
+
+				<label for="status" class="block text-gray-700 mt-2">Status</label>
+				<select
+					ng-disabled="hasPermission(true)"
+					ng-model="status"
+					id="status"
+					name="status"
+					class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				>
+					<option ng-repeat="item in statuses" ng-value="item">{{item}}</option>
+				</select>
+
+				<label for="created_by" class="block text-gray-700 mt-2">Created By</label>
+				<input
+					ng-value="getUser(created_by)"
+					type="text"
+					id="created_by"
+					name="created_by"
+					placeholder="Created By"
+					disabled
+					class="font-semibold focus:ring-2 focus:ring-dark rounded-lg w-full bg-light text-darkest focus:border-0"
+				/>
+
+				<div class="text-center text-red-600 text-lg" ng-if="errorMsg">{{errorMsg}}</div>
+				<div class="flex gap-x-5 mt-5">
+					<div class="w-full">
+						<custom-button
+							ng-if="!hasPermission(false)"
+							on-click="delete()"
+							class="bg-red-600 text-textdark rounded-lg text-lg w-full mt-2"
+							parent-class="mt-2"
+							name="Delete"
+							loading="issueLoading"
+						>
+						</custom-button>
+					</div>
+					<div class="w-full">
+						<custom-button
+							ng-if="!hasPermission(true)"
+							on-click="save()"
+							class="bg-primary text-textdark rounded-lg text-lg w-full mt-2"
+							parent-class="mt-2"
+							name="Save"
+							loading="issueLoading"
+						>
+						</custom-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</md-dialog-content>
+</md-dialog>

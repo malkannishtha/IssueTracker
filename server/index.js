@@ -40,20 +40,24 @@ app.use(morgan("dev"));
 app.use(express.static("public"));
 app.post("/signup", asyncRouteHandler(register));
 app.post("/login", asyncRouteHandler(login));
+
 app.use(authMiddleware());
+
 app.get("/verify", asyncRouteHandler(verify));
-app.post("/user/projects", asyncRouteHandler(addProject));
-app.get("/user/projects", asyncRouteHandler(getProjects));
-app.get("/user/projects/:id", asyncRouteHandler(getProject));
-app.delete("/user/projects/:id", asyncRouteHandler(deleteProject));
-app.patch("/user/projects/:id", asyncRouteHandler(editProject));
+
+app.get("/projects", asyncRouteHandler(getProjects));
+app.get("/projects/:id", asyncRouteHandler(getProject));
+app.post("/projects", asyncRouteHandler(addProject));
+app.patch("/projects/:id", asyncRouteHandler(editProject));
+app.delete("/projects/:id", asyncRouteHandler(deleteProject));
+
 //get all issues of a user
-app.get("/user/issues", asyncRouteHandler(getIssues));
-app.post("/user/issues", asyncRouteHandler(addIssue));
-app.delete("/user/issues/:id", asyncRouteHandler(deleteIssue));
-app.get("/user/issues/:id", asyncRouteHandler(getIssue));
-app.patch("/user/issues/:id", asyncRouteHandler(editIssue));
-app.get("/user/issues", asyncRouteHandler(getIssues));
+app.get("/issues", asyncRouteHandler(getIssues));
+app.get("/issues/:id", asyncRouteHandler(getIssue));
+app.post("/issues", asyncRouteHandler(addIssue));
+app.patch("/issues/:id", asyncRouteHandler(editIssue));
+app.delete("/issues/:id", asyncRouteHandler(deleteIssue));
+
 //get all users based on query
 app.get("/users", asyncRouteHandler(getUsers));
 app.use(errorHandler);
