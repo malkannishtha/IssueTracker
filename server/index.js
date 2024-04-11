@@ -45,9 +45,11 @@ app.get("/user/projects", asyncRouteHandler(getProjects));
 app.get("/user/projects/:id", asyncRouteHandler(getProject));
 app.delete("/user/projects/:id", asyncRouteHandler(deleteProject));
 app.patch("/user/projects/:id", asyncRouteHandler(editProject));
+//get all issues of a user
+app.get("/user/issues", asyncRouteHandler(getIssues));
 app.post("/user/issues", asyncRouteHandler(addIssue));
 app.delete("/user/issues/:id", asyncRouteHandler(deleteIssue));
-app.get("/user/issues", asyncRouteHandler(getIssues));
+//get all users based on query
 app.get("/users", asyncRouteHandler(getUsers));
 app.use(errorHandler);
 dbConnect()

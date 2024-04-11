@@ -42,7 +42,10 @@
 								ng-if="showEditDelete(project.leader)"
 								class="mx-2 cursor-pointer text-lg text-red-600 fa-solid fa-trash"
 							></i>
-							<i class="mx-2 cursor-pointer text-lg text-primary fa-solid fa-circle-arrow-right"></i>
+							<i
+								class="mx-2 cursor-pointer text-lg text-primary fa-solid fa-circle-arrow-right"
+								ng-click="gotoProject(project._id)"
+							></i>
 						</div>
 					</td>
 				</tr>

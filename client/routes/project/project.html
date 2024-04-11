@@ -1,0 +1,74 @@
+<div class="p-5 h-full w-full">
+	<div class="w-full h-full bg-white rounded-lg" ng-if="loading || errorMsg">
+		<div class="flex w-full h-full justify-center items-center" ng-if="loading">
+			<md-progress-circular md-mode="indeterminate" md-diameter="40px"></md-progress-circular>
+		</div>
+		<div class="flex w-full h-full justify-center items-center" ng-if="errorMsg">
+			<div class="text-lg text-red-600 font-bold">{{errorMsg}}</div>
+		</div>
+	</div>
+	<div class="w-full h-full bg-light flex flex-col" ng-if="!loading && !errorMsg">
+		<div class="text-3xl font-bold p-3 flex justify-between flex-1 bg-white rounded-lg">
+			<div>{{project.title}}</div>
+			<custom-button
+				on-click="addIssueModal()"
+				class="bg-primary text-textdark rounded-lg text-lg"
+				name="Add Issue"
+			>
+			</custom-button>
+		</div>
+		<div class="flex w-full h-full mt-3 overflow-auto flex-100 bg-white rounded-lg py-5">
+			<div class="border-r-primary border-r px-2">
+				<div
+					class="font-semibold text-lg mb-3 cursor-pointer px-10 transition-all rounded-lg hover:text-textdark"
+					ng-click="toggleView('issues')"
+					ng-class="{ 'bg-primary text-textdark': activeView === 'issues', 'text-black': activeView !== 'issues' }"
+				>
+					Issues
+				</div>
+				<div
+					class="font-semibold text-lg my-3 cursor-pointer px-10 transition-all rounded-lg hover:text-textdark"
+					ng-click="toggleView('details')"
+					ng-class="{ 'bg-primary text-textdark': activeView === 'details', 'text-black': activeView !== 'details' }"
+				>
+					Details
+				</div>
+			</div>
+			<div class="w-full h-full ms-2 overflow-auto" ng-if="activeView == 'details'">
+				<div class="px-52 text-darkest">
+					<div class="my-5">
+						<div class="font-bold">Description:</div>
+						<div class="text-lg text-justify">{{project.description}}</div>
+					</div>
+					<div class="my-5">
+						<div class="font-bold">Members:</div>
+						<table
+							style="min-width: fit-content"
+							class="table-auto w-full border-collapse border border-primary"
+						>
+							<thead>
+								<tr class="bg-darkest text-light">
+									<th class="border border-primary p-1 select-none" ng-repeat="item in memberFields">
+										{{item.header}}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="member in project.members">
+									<td class="border border-primary p-3">{{$index + 1}}</td>
+									<td class="border border-primary p-3">{{member.username}}</td>
+									<td class="border border-primary p-3">{{member.fullname}}</td>
+									<td class="border border-primary p-3">{{0}}</td>
+									<td class="border border-primary p-3">{{0}}</td>
+									<td class="border border-primary p-3">{{0}}</td>
+									<td class="border border-primary p-3">{{0}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="w-full h-full ms-2" ng-if="activeView == 'issues'">Dynamic content2</div>
+		</div>
+	</div>
+</div>
