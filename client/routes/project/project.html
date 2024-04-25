@@ -9,7 +9,7 @@
 	</div>
 	<div class="w-full h-full bg-light flex flex-col" ng-if="!loading && !errorMsg">
 		<div class="text-3xl font-bold p-3 flex justify-between flex-1 bg-white rounded-lg">
-			<div>{{project.title}}</div>
+			<div><i ng-click="goBack()" class="fa-solid fa-chevron-left mr-5"></i>{{project.title}}</div>
 			<custom-button
 				on-click="addIssueModal()"
 				class="bg-primary text-textdark rounded-lg text-lg"

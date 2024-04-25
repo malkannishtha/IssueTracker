@@ -37,7 +37,7 @@ app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(interceptor);
 app.use(morgan("dev"));
-app.use(express.static("public"));
+
 app.post("/signup", asyncRouteHandler(register));
 app.post("/login", asyncRouteHandler(login));
 
@@ -70,12 +70,3 @@ dbConnect()
 	.catch((err) => {
 		console.log(err.message);
 	});
-// async function add() {
-// 	const user = new usersModel({
-// 		username: "210170116022",
-// 		password: md5("123"),
-// 		email: "nishthamalkan20@gmail.com",
-// 	});
-// 	await user.save();
-// }
-// add();

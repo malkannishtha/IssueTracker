@@ -32,11 +32,11 @@
 						ng-change="onMemberChange()"
 					/>
 					<div
-						class="absolute top-full bg-white w-full max-h-40 overflow-y-auto pb-3 border border-primary rounded-lg z-20"
+						class="absolute top-[105%] w-full max-h-40 overflow-y-auto pb-3 border border-primary rounded-sm z-20"
 						ng-if="member"
 					>
 						<div
-							class="text-darkest hover:bg-primary p-1 cursor-pointer border-b border-b-primary"
+							class="text-darkest hover:bg-primary p-1 cursor-pointer border-b border-b-primary text-lg bg-light"
 							ng-click="selectMember(user)"
 							ng-repeat="user in users"
 						>

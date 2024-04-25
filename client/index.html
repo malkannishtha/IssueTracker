@@ -50,9 +50,18 @@
 						</div>
 					</div>
 					<div class="text-end">
-						<span class="cursor-pointer mr-5 text-xl">
-							<i class="fa-solid fa-user mr-2"></i>{{username}}
-						</span>
+						<md-menu>
+							<span md-menu-origin class="cursor-pointer mr-5 text-xl" ng-click="$mdMenu.open($event)">
+								<i class="fa-solid fa-user mr-2"></i>{{username}}
+							</span>
+							<md-menu-content>
+								<md-menu-item>
+									<md-button ng-click="logout()">
+										<span md-menu-align-target><i class="fa fa-power-off mr-2"></i>Logout</span>
+									</md-button>
+								</md-menu-item>
+							</md-menu-content>
+						</md-menu>
 					</div>
 				</div>
 				<div

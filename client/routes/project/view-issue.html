@@ -10,7 +10,7 @@
 			<div class="p-5 w-full">
 				<label for="title" class="block text-gray-700">Title</label>
 				<input
-					ng-disabled="hasPermission(false)"
+					ng-disabled="!hasPermission(false)"
 					ng-model="title"
 					type="text"
 					id="title"
@@ -21,7 +21,7 @@
 
 				<label for="description" class="block text-gray-700 mt-2">Description</label>
 				<textarea
-					ng-disabled="hasPermission(false)"
+					ng-disabled="!hasPermission(false)"
 					ng-model="description"
 					id="description"
 					name="description"
@@ -31,7 +31,7 @@
 
 				<label for="due_date" class="block text-gray-700 mt-2">Due Date</label>
 				<input
-					ng-disabled="hasPermission(false)"
+					ng-disabled="!hasPermission(false)"
 					ng-model="due_date"
 					type="date"
 					id="due_date"
@@ -42,7 +42,7 @@
 
 				<label for="user_id" class="block text-gray-700 mt-2">Assigned To</label>
 				<select
-					ng-disabled="hasPermission(false)"
+					ng-disabled="!hasPermission(false)"
 					ng-model="user_id"
 					id="user_id"
 					name="user_id"
@@ -54,7 +54,7 @@
 
 				<label for="status" class="block text-gray-700 mt-2">Status</label>
 				<select
-					ng-disabled="hasPermission(true)"
+					ng-disabled="!hasPermission(true)"
 					ng-model="status"
 					id="status"
 					name="status"
@@ -78,7 +78,7 @@
 				<div class="flex gap-x-5 mt-5">
 					<div class="w-full">
 						<custom-button
-							ng-if="!hasPermission(false)"
+							ng-if="hasPermission(false)"
 							on-click="delete()"
 							class="bg-red-600 text-textdark rounded-lg text-lg w-full mt-2"
 							parent-class="mt-2"
@@ -89,7 +89,7 @@
 					</div>
 					<div class="w-full">
 						<custom-button
-							ng-if="!hasPermission(true)"
+							ng-if="hasPermission(true)"
 							on-click="save()"
 							class="bg-primary text-textdark rounded-lg text-lg w-full mt-2"
 							parent-class="mt-2"

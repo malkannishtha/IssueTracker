@@ -52,7 +52,7 @@ appModule.controller("projectsController", projectsController);
 appModule.controller("projectController", projectController);
 loginController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
 signupController.$inject = ["$scope", "$interval", "$timeout", "$location", "auth", "api"];
-mainController.$inject = ["$scope", "$location", "auth", "$rootScope"];
+mainController.$inject = ["$scope", "$location", "auth", "$rootScope", "$mdMenu"];
 homeController.$inject = ["$scope", "$location", "auth", "api", "$mdDialog"];
 projectsController.$inject = ["$scope", "$location", "auth", "api", "$mdDialog"];
 projectController.$inject = ["$scope", "$location", "auth", "api", "$mdDialog", "$routeParams"];

@@ -60,6 +60,7 @@ export default function homeController($scope, $location, auth, api, $mdDialog) 
 						index: index + 1,
 						project: ele.project_id.title,
 						project_id: ele.project_id._id,
+						status: new Date(ele.due_date) < new Date() ? "EXPIRED" : ele.status,
 					}));
 					$scope.projects = Array.from(new Set($scope.issues.map((ele) => ele.project)));
 					$scope.filteredIssues = $scope.issues;

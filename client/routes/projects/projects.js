@@ -146,7 +146,7 @@ export default function projectsController($scope, $location, auth, api, $mdDial
 			$scope.member = "";
 		};
 		$scope.removeMember = function (user) {
-			$scope.members = $scope.members.filter((ele, ind) => ele._id != userId);
+			$scope.members = $scope.members.filter((ele, ind) => ele._id != user);
 		};
 
 		$scope.addProject = function () {

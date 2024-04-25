@@ -44,6 +44,9 @@ export default function projectController($scope, $location, auth, api, $mdDialo
 	$scope.getUser = function (userId) {
 		return $scope.members.find((ele) => ele._id == userId);
 	};
+	$scope.goBack = function () {
+		window.history.back();
+	};
 
 	$scope.fetchProject = function () {
 		$scope.loading = true;
@@ -197,10 +200,11 @@ export default function projectController($scope, $location, auth, api, $mdDialo
 
 		$scope.hasPermission = function (isStatus) {
 			if (issue.created_by == $scope.userId) {
-				return false;
+				return true;
 			} else if (issue.user_id == $scope.userId && isStatus) {
-				return false;
+				return true;
 			}
+			return false;
 		};
 
 		$scope.getUser = function (userId) {
@@ -208,15 +212,9 @@ export default function projectController($scope, $location, auth, api, $mdDialo
 		};
 
 		$scope.save = function () {
-			if (
-				!$scope.user_id ||
-				!$scope.due_date ||
-				new Date() >= new Date($scope.due_date) ||
-				!$scope.description ||
-				!$scope.title ||
-				$scope.issueLoading
-			)
+			if (!$scope.user_id || !$scope.due_date || !$scope.description || !$scope.title || $scope.issueLoading)
 				return;
+			if (!$scope.hasPermission(false) && new Date() >= new Date($scope.due_date)) return;
 
 			const body = {
 				title: $scope.title,

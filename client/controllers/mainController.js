@@ -1,4 +1,4 @@
-export default function mainController($scope, $location, auth, $rootScope) {
+export default function mainController($scope, $location, auth, $rootScope, $mdMenu) {
 	$scope.showHeaderFooter = false;
 	$scope.username = "";
 	if (auth.isAuthenticated()) {
@@ -22,8 +22,17 @@ export default function mainController($scope, $location, auth, $rootScope) {
 		}
 	});
 
+	$scope.logout = function () {
+		localStorage.clear();
+		window.open("/", "_self");
+	};
+
 	$scope.activeLink = function (link) {
-		return $location.path() == link;
+		if (link == "/projects") {
+			return $location.path().includes("project");
+		} else {
+			return $location.path() == link;
+		}
 	};
 	$scope.redirectTo = function (path) {
 		$location.path(path);
